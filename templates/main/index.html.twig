@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+
+<img src="{{asset('img/imgtest.jpg')}}" class="mainimg" alt="Responsive image">
+
+<div class="search">
+  
+    <form class="form-inline" action="{{ path('search_voyage') }}" method="POST">
+    <div class="input-group col-sm-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-plane-departure"></i></span>
+      </div>
+          <select class="form-control" name="depart">
+          {% for item in villes %}
+            <option>{{item}}</option> 
+          {% endfor %}
+          </select>
+    </div>
+
+    <div class="input-group col-sm-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-plane-arrival"></i></span>
+      </div>
+          <select class="form-control" name="arrive">
+            {% for item in villes %}
+              <option>{{item}}</option> 
+            {% endfor %}
+          </select>
+    </div>
+
+    <div class="input-group col-sm-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="fas fa-clipboard-list"></i></span>
+      </div>
+      <select name="classe" class="form-control">
+        <option value="1">Economie</option>
+        <option value="2">Premium Economie</option>
+        <option value="3">Business</option>
+        <option value="4">Première Classe</option>
+      </select>
+    </div>
+
+    <div class="input-group dates col-sm-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></i></span>
+      </div>
+      <input type="date" name="date" id="datepicker" class="form-control" placeholder="Date de départ" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+  </form>
+  
+</div>
+
+
+
+
+{% endblock %}

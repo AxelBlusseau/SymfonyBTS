@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du voyage{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+{% if error == 1 %}
+  <div style="margin-top: 40vh; font-size: 5vh" class="text-center">Oups, nous sommes désolé, un problème est survenu. Veuillez réessayer. 
+    <i class="far fa-tired"></i>
+  </div>
+{% endif %}
+
+{% if error == 0 %}
+
+<div class="jumbotron">
+  <h1 class="display-4">{{ voyage.libelle }}</h1>
+  <hr class="my-4">
+  <p>Prix : {{ voyage.prix + classe.prix}}€ </p>
+  <p>Date de départ : {{ dateMin }} </p>
+  <p>Date d'arrivée : {{ dateMax }} </p>
+  <p>Classe : {{ classe.libelle }} </p> 
+  {% if place_restante != null %}
+    <p>Places restantes : {{ place_restante }} </p>
+  {% endif %}
+  {% if app.user != null %}
+    <a class="btn btn-primary btn-lg" href="{{ path("add_reservation",{ "idVoyage":voyage.idVoyage })  }}" role="button">Continuer</a>
+  {% endif %}
+  {% if app.user == null %}
+    <a class="btn btn-primary btn-lg" role="button"  data-toggle="modal" data-target="#ModalConnexion">Continuer</a>
+  {% endif %}
+</div>
+
+{% for item in vols %}
+<div class="card" style="margin-top: 10px">
+  <div class="card-header">
+    <div class="row">
+        <div class="col">{{ item.idTrajet.coded.ville }} ({{ item.dateDepart|date("d-m-Y") }}) <i class="fas fa-plane"></i> {{ item.idTrajet.codea.ville }} ({{ item.dateArrive|date("d-m-Y") }})</div>
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Détails du vol :</h5>
+    <div class="row">
+        <div class="col">   
+            <p class="card-text"><i class="fas fa-plane-departure"></i> {{ item.heureDepart|date("H:i") }} {{item.idTrajet.coded.ville}}, {{item.idTrajet.coded.nomAeroport}}</p>
+            <p class="card-text"><i class="fas fa-plane-arrival"></i> {{ item.heureArrive|date("H:i") }} {{item.idTrajet.codea.ville}}, {{item.idTrajet.codea.nomAeroport}}</p>
+        </div>
+        <div class="col">
+            <p class="card-text" style="text-align:right">Durée du voyage : {{ item.idTrajet.temps|date("H:i") }}</p>
+            <p class="card-text" style="text-align:right">Appareil : {{ item.idAvion.idModele.libelle }}</p>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalConnexion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pas tout de suite...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Inscrivez vous ou connectez vous pour continuer !
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a role="button" class="btn btn-primary" href="{{ path("login") }}">Continuer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+{% endif %}
+</div>
+{% endblock %}
